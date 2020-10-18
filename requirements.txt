@@ -7,7 +7,7 @@ Werkzeug
 numpy
 matplotlib
 keras
-opencv
+opencv-python
 os
 scikit-image
 imutils
