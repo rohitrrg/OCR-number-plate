@@ -7,5 +7,5 @@ Werkzeug
 numpy
 matplotlib
 keras
-opencv-python
+opencv-contrib-python-headless
 scikit-image
