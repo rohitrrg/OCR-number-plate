@@ -8,6 +8,4 @@ numpy
 matplotlib
 keras
 opencv-python
-os
 scikit-image
-imutils
