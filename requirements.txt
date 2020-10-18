@@ -6,6 +6,6 @@ MarkupSafe
 Werkzeug
 numpy
 matplotlib
-keras
+tensorflow
 opencv-contrib-python-headless
 scikit-image
