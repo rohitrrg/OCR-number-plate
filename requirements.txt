@@ -3,6 +3,7 @@ gunicorn
 itsdangerous
 Jinja2
 MarkupSafe
+imutils
 Werkzeug
 numpy==1.16.0
 opencv-contrib-python-headless
