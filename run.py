@@ -4,7 +4,7 @@ from functions import extract_plate_1, extract_plate_2, segment_characters, show
 import cv2
 import os
 
-UPLOAD_FOLDER = '/home/rohit/Projects/OCR-number-plate/uploads'
+UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 app = Flask(__name__)
