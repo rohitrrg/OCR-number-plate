@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
 from tensorflow.keras.models import load_model
 from detector.anpr import PyImageSearchANPR
@@ -86,7 +85,7 @@ def find_contours(dimensions, img):
 
     # Return characters on ascending order with respect to the x-coordinate (most-left character first)
 
-    plt.show()
+    # plt.show()
     # arbitrary function that stores sorted list of character indeces
     indices = sorted(range(len(x_cntr_list)), key=lambda k: x_cntr_list[k])
     img_res_copy = []
