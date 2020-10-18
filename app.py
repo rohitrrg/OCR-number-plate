@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
-import urllib.request
 from werkzeug.utils import secure_filename
-import functions
+from functions import extract_plate_1, extract_plate_2, segment_characters, show_results
 import cv2
 import os
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
 UPLOAD_FOLDER = '/home/rohit/Projects/OCR-number-plate/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -38,20 +36,20 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             image = cv2.imread('uploads/'+filename)
-            plate_img, plate = functions.extract_plate_1(image)
+            plate_img, plate = extract_plate_1(image)
             if plate is not None:
                 print('Cascade')
-                char = functions.segment_characters(plate)
-                plate_number = functions.show_results(char)
+                char = segment_characters(plate)
+                plate_number = show_results(char)
                 flash(plate_number)
             else:
-                plate = functions.extract_plate_2(image)
+                plate = extract_plate_2(image)
                 if plate is not None:
                     print('Contours')
                     cv2.imwrite('photo.png', plate)
                     plate = cv2.imread('photo.png')
-                    char = functions.segment_characters(plate)
-                    plate_number = functions.show_results(char)
+                    char = segment_characters(plate)
+                    plate_number = show_results(char)
                     flash(plate_number)
                 else:
                     flash('Not Found')
