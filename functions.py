@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 from detector.anpr import PyImageSearchANPR
 
 model = load_model('model.h5')
