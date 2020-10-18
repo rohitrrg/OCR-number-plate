@@ -1,6 +1,7 @@
+import imutils
 from skimage.segmentation import clear_border
 import numpy as np
-import imutils
+
 import cv2
 
 
