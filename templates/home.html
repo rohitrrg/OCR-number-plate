@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="main" align="center">
+	<h1>Optical Character Recognition</h1>
+<h2>Select a file to upload</h2>
+
+<form method="post" action="/" enctype="multipart/form-data">
+    <dl>
+	<p>
+		<input type="file" name="file" autocomplete="off" required>
+	</p>
+		{% if filename %}
+	<div>
+		<img src="{{ url_for('display_image', filename=filename) }}">
+	</div>
+   		 {% endif %}
+    </dl>
+    <p>
+	<input type="submit" value="Submit">
+    </p>
+</form>
+<p>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+        Text: {{ messages[0] }}
+	  {% endif %}
+	{% endwith %}
+</p>
+</div>
+
+</body>
+</html>
