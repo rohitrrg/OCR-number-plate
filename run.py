@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from werkzeug.utils import secure_filename
-from functions import extract_plate_1, extract_plate_2, segment_characters, show_results
+from functions import extract_text, segment_characters, show_results
 import cv2
 import os
+from tensorflow.keras.models import load_model
+
+
+model = load_model('model.h5')
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -36,27 +40,17 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             image = cv2.imread('uploads/'+filename)
-            plate_img, plate = extract_plate_1(image)
+            plate = extract_text(image)
             if plate is not None:
-                print('Cascade')
+                cv2.imwrite('photo.png', plate)
+                plate = cv2.imread('photo.png')
                 char = segment_characters(plate)
-                plate_number = show_results(char)
-                flash(plate_number)
+                text = show_results(char, model)
+                flash(text)
             else:
-                plate = extract_plate_2(image)
-                if plate is not None:
-                    print('Contours')
-                    cv2.imwrite('photo.png', plate)
-                    plate = cv2.imread('photo.png')
-                    char = segment_characters(plate)
-                    plate_number = show_results(char)
-                    flash(plate_number)
-                else:
-                    flash('Not Found')
-        else:
-            flash('Not Found')
+                flash('Text Not Found')
 
-        return redirect('/')
+    return redirect('/')
 
 
 if __name__ == "__main__":

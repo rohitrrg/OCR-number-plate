@@ -1,34 +1,14 @@
+import imutils
 import numpy as np
 import cv2
-from tensorflow.keras.models import load_model
 from detector.anpr import PyImageSearchANPR
 
-model = load_model('model.h5')
 
-
-def extract_plate_1(img): # the function detects and perfors blurring on the number plate.
-    plate_img = img.copy()
-
-    gray = cv2.cvtColor(plate_img, cv2.COLOR_BGR2GRAY)
-    # Loads the data required for detecting the license plates from cascade classifier.
-    plate_cascade = cv2.CascadeClassifier('./indian_license_plate.xml')
-
-    # detects number plates and returns the coordinates and dimensions of detected license plate's contours.
-    plate_rect = plate_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=7)
-
-    plate = None
-    for (x,y,w,h) in plate_rect:
-        plate = plate_img[y:y+h, x:x+w]
-        # finally representing the detected contours by drawing rectangles around the edges.
-        cv2.rectangle(plate_img, (x,y), (x+w, y+h), (51,51,255), 3)
-
-    return plate_img, plate # returning the processed image.
-
-
-def extract_plate_2(img):
+def extract_text(img):
     plate_image = img.copy()
 
     image = plate_image
+    image = imutils.resize(image, width=600)
 
     anpr = PyImageSearchANPR()
     (plate, lpCnt) = anpr.find_and_ocr(image)
@@ -136,7 +116,7 @@ def fix_dimension(img):
     return new_img
 
 
-def show_results(char):
+def show_results(char, model):
     dic = {}
     characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     for i,c in enumerate(characters):
